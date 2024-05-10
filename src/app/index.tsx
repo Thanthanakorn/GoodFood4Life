@@ -1,5 +1,6 @@
 import {StyleSheet, View} from 'react-native';
 import FoodListItem from "../components/FoodListItem";
+
 export default function Index() {
     return (
         <View style={styles.container}>
