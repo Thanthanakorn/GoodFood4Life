@@ -6,7 +6,7 @@ const FoodListItem = ({ item }) => {
     return (
         <View style={styles.container}>
             <View style={{ flex: 1, gap: 5 }}>
-                <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.label}</Text>
+                <Text style={{color: 'white',fontWeight: 'bold', fontSize: 16}}>{item.label}</Text>
                 <Text style={{color: 'dimgray'}}> {item.cal} cal, {item.brand}</Text>
             </View>
             <AntDesign name="pluscircleo" size={24} color="royalblue"/>
@@ -16,7 +16,7 @@ const FoodListItem = ({ item }) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'gainsboro',
+        backgroundColor: '#1c1c33',
         padding: 10,
         borderRadius: 5,
         gap: 5,
