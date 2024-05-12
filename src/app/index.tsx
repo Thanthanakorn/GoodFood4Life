@@ -1,22 +1,44 @@
-import {FlatList, StyleSheet, View, TextInput, Button} from 'react-native';
+import {Text, FlatList, StyleSheet, View, TextInput, Button, ActivityIndicator} from 'react-native';
 import FoodListItem from "../components/FoodListItem";
 import {useState} from "react";
+import {gql, useLazyQuery} from "@apollo/client";
 
-const foodItems = [
-    {label: "Pizza", cal: 600, brand: "Domino's"},
-    {label: "Rib eye", cal: 450, brand: "Sizzler"},
-    {label: "Salmon Stake", cal: 400, brand: "Fuji"},
-];
+const query = gql`
+    query Search($ingr: String) {
+        search(ingr: $ingr) {
+            text
+            hints {
+                food {
+                    label
+                    brand
+                    foodId
+                    nutrients {
+                        ENERC_KCAL
+                        CHOCDF
+                        PROCNT
+                        FAT
+                        FIBTG
+                    }
+                }
+            }
+        }
+    }`;
 
-
-export default function Index() {
+export default function SearchScreen() {
     const [search, setSearch] = useState('');
 
-    const performSearch = () => {
-        console.warn('Searching for: ', search);
+    const [runSearch,
+        {data, loading, error}] = useLazyQuery(query);
 
-        setSearch('');
+    const performSearch = () => {
+        runSearch({variables: {ingr: search}});
     };
+
+    if (error) {
+        return <Text>An error occurred.</Text>;
+    }
+
+    const items = data?.search?.hints || [];
 
     return (
         <View style={styles.container}>
@@ -28,7 +50,10 @@ export default function Index() {
                 placeholderTextColor={'#898888'}/>
             {search && <Button title="Search" onPress={performSearch}/>}
 
-            <FlatList data={foodItems} renderItem={({item}) => <FoodListItem item={item}/>}
+            {loading && <ActivityIndicator />}
+            <FlatList data={items}
+                      renderItem={({item}) => <FoodListItem item={item}/>}
+                      ListEmptyComponent={() => <Text> Search a food</Text>}
                       contentContainerStyle={{gap: 5}}
             />
 
