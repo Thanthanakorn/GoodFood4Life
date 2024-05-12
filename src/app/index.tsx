@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, View, Text, TextInput, Button} from 'react-native';
+import {FlatList, StyleSheet, View, TextInput, Button} from 'react-native';
 import FoodListItem from "../components/FoodListItem";
 import {useState} from "react";
 
