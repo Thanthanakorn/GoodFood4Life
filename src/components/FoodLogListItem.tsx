@@ -1,20 +1,12 @@
-import {Text, View, StyleSheet} from "react-native";
-import {AntDesign} from "@expo/vector-icons";
+import { View, Text, StyleSheet } from 'react-native';
 
 // @ts-ignore
 const FoodLogListItem = ({ item }) => {
     return (
         <View style={styles.container}>
             <View style={{ flex: 1, gap: 5 }}>
-                <Text style={{color: 'white',fontWeight: 'bold', fontSize: 16}}>
-                    {item.label} {item.food_brand}
-                </Text>
-                <Text style={{color: 'dimgray'}}>
-                    {item.kcal} Kcal,
-                    Carb: {item.carbohydrate} ,
-                    Protein: {item.protein}  ,
-                    Fat: {item.fat}
-                </Text>
+                <Text style={{color: 'white',fontWeight: 'bold', fontSize: 16}}>{item.label}</Text>
+                <Text style={{ color: 'dimgray' }}>{item.kcal} cal</Text>
             </View>
         </View>
     );

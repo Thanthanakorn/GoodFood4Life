@@ -1,10 +1,21 @@
-import {Text, FlatList, StyleSheet, View, TextInput, Button, ActivityIndicator} from 'react-native';
-import FoodListItem from "../components/FoodListItem";
-import {useState} from "react";
-import {gql, useLazyQuery} from "@apollo/client";
+import {
+    StyleSheet,
+    Text,
+    View,
+    FlatList,
+    TextInput,
+    Button,
+    ActivityIndicator,
+} from 'react-native';
+import FoodListItem from '../components/FoodListItem';
+import { useState } from 'react';
+import { gql, useLazyQuery } from '@apollo/client';
+import { AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 const query = gql`
-    query Search($ingr: String) {
+    query search($ingr: String) {
         search(ingr: $ingr) {
             text
             hints {
@@ -14,52 +25,72 @@ const query = gql`
                     foodId
                     nutrients {
                         ENERC_KCAL
-                        CHOCDF
-                        PROCNT
-                        FAT
-                        FIBTG
                     }
                 }
             }
         }
-    }`;
+    }
+`;
 
 export default function SearchScreen() {
     const [search, setSearch] = useState('');
-
-    const [runSearch,
-        {data, loading, error}] = useLazyQuery(query);
+    const [scannerEnabled, setScannerEnabled] = useState(false);
+    const [runSearch, { data, loading, error }] = useLazyQuery(query);
 
     const performSearch = () => {
-        runSearch({variables: {ingr: search}});
+        runSearch({ variables: { ingr: search } });
     };
 
     if (error) {
-        return <Text>An error occurred.</Text>;
+        return <Text>Failed to search</Text>;
+    }
+
+    if (scannerEnabled) {
+        return (
+            <View>
+                <AntDesign
+                    onPress={() => setScannerEnabled(false)}
+                    name="closecircleo"
+                    size={35}
+                    color="red"
+                    style={{ position: 'absolute', right: 10, top: 10 }}
+                />
+            </View>
+        )
     }
 
     const items = data?.search?.hints || [];
 
     return (
         <View style={styles.container}>
-            <TextInput
-                value={search}
-                onChangeText={setSearch}
-                placeholder="Search..."
-                style={styles.input}
-                placeholderTextColor={'#898888'}/>
-            {search && <Button title="Search" onPress={performSearch}/>}
+            <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+                <View style={styles.input}>
+                    <AntDesign name="search1" size={24} color="white" />
+                    <TextInput
+                        value={search}
+                        onChangeText={setSearch}
+                        placeholder=" Search..."
+                        placeholderTextColor={'#898888'}/>
+                </View>
+                <MaterialCommunityIcons
+                    onPress={() => setScannerEnabled(true)}
+                    name="barcode-scan"
+                    size={30}
+                    color="white" />
+            </View>
+            {search && <Button title="Search" onPress={performSearch} />}
 
             {loading && <ActivityIndicator />}
-            <FlatList data={items}
-                      renderItem={({item}) => <FoodListItem item={item}/>}
-                      ListEmptyComponent={() => <Text> Search a food</Text>}
-                      contentContainerStyle={{gap: 5}}
+            <FlatList
+                data={items}
+                renderItem={({ item }) => <FoodListItem item={item} />}
+                ListEmptyComponent={() => <Text>Search a food</Text>}
+                contentContainerStyle={{ gap: 5 }}
             />
-
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -68,10 +99,14 @@ const styles = StyleSheet.create({
         padding: 10,
         gap: 10,
     },
+
     input: {
         color: 'white',
+        flexDirection: 'row',
+        gap: 10,
         backgroundColor: '#2a2a2a',
         padding: 10,
         borderRadius: 20,
+        flex: 1,
     }
 });

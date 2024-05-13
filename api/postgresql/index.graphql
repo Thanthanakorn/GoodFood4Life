@@ -1,26 +1,25 @@
 type Food_log {
-  user_id: String
-  user_password: String
-  carbohydrate: Float
   created_at: DateTime
-  fat: Float
   food_id: String
   id: Int!
   kcal: Int
   label: String
-  protein: Float
-  food_brand: String
+  user_id: String
 }
 
+"""
+The following queries are just a set of examples of how to access your schema.
+Feel free to modify them or aggregate more.
+"""
 type Query {
   " Queries for type 'Food_log' "
-  food_logByUser_id(user_id: String!): [Food_log]
-    @dbquery(
-      type: "postgresql"
-      schema: "public"
-      table: "food_log"
-      configuration: "postgresql_config"
-    )
+  food_logByFood_id(food_id: String!): [Food_log]
+  @dbquery(
+    type: "postgresql"
+    schema: "public"
+    table: "food_log"
+    configuration: "postgresql_config"
+  )
 
   foodLogsForDate(user_id: String!, date: Date!): [Food_log]
   @dbquery(
@@ -29,22 +28,29 @@ type Query {
     configuration: "postgresql_config"
   )
 
+  food_logByFood_idAndLabel(food_id: String!, label: String!): [Food_log]
+  @dbquery(
+    type: "postgresql"
+    schema: "public"
+    table: "food_log"
+    configuration: "postgresql_config"
+  )
   food_logList: [Food_log]
-    @dbquery(
-      type: "postgresql"
-      schema: "public"
-      table: "food_log"
-      configuration: "postgresql_config"
-    )
+  @dbquery(
+    type: "postgresql"
+    schema: "public"
+    table: "food_log"
+    configuration: "postgresql_config"
+  )
   food_logPaginatedList(first: Int, after: Int): [Food_log]
-    @dbquery(
-      type: "postgresql"
-      schema: "public"
-      query: """
-      SELECT "carbohydrate", "created_at", "fat", "food_id", "id", "kcal", "label", "protein", "user_id", "user_password" FROM "food_log" LIMIT $1 OFFSET $2
-      """
-      configuration: "postgresql_config"
-    )
+  @dbquery(
+    type: "postgresql"
+    schema: "public"
+    query: """
+    SELECT "created_at", "food_id", "id", "kcal", "label", "user_id" FROM "food_log" LIMIT $1 OFFSET $2
+    """
+    configuration: "postgresql_config"
+  )
 }
 
 """
@@ -54,40 +60,31 @@ Feel free to modify them or aggregate more.
 type Mutation {
   " Mutations for type 'Food_log' "
   deleteFood_log(
-    user_id: String!
     label: String!
+    food_id: String!
     kcal: Int!
-    carbohydrate: Float!
-    protein: Float!
-    fat: Float!
+    user_id: String!
     id: Int!
     created_at: DateTime!
-    food_id: String!
-    food_brand: String
   ): Food_log
-    @dbquery(
-      type: "postgresql"
-      schema: "public"
-      table: "food_log"
-      dml: DELETE
-      configuration: "postgresql_config"
-    )
+  @dbquery(
+    type: "postgresql"
+    schema: "public"
+    table: "food_log"
+    dml: DELETE
+    configuration: "postgresql_config"
+  )
   insertFood_log(
-    user_id: String
-    user_password: String
     label: String
     food_id: String
-    food_brand: String
     kcal: Int
-    carbohydrate: Float
-    protein: Float
-    fat: Float
+    user_id: String
   ): Food_log
-    @dbquery(
-      type: "postgresql"
-      schema: "public"
-      table: "food_log"
-      dml: INSERT
-      configuration: "postgresql_config"
-    )
+  @dbquery(
+    type: "postgresql"
+    schema: "public"
+    table: "food_log"
+    dml: INSERT
+    configuration: "postgresql_config"
+  )
 }
