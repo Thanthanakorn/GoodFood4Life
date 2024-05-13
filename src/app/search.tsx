@@ -12,11 +12,13 @@ import { useState } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { CameraView, useCameraPermissions} from 'expo-camera';
+
 
 
 const query = gql`
-    query search($ingr: String) {
-        search(ingr: $ingr) {
+    query search($ingr: String, $upc: String) {
+        search(ingr: $ingr, upc: $upc) {
             text
             hints {
                 food {
@@ -36,6 +38,11 @@ export default function SearchScreen() {
     const [search, setSearch] = useState('');
     const [scannerEnabled, setScannerEnabled] = useState(false);
     const [runSearch, { data, loading, error }] = useLazyQuery(query);
+    //Camera
+    const [permission, requestPermission] = useCameraPermissions();
+    // Request only if permission is not granted, so we can ask again.
+    requestPermission();
+
 
     const performSearch = () => {
         runSearch({ variables: { ingr: search } });
@@ -48,6 +55,11 @@ export default function SearchScreen() {
     if (scannerEnabled) {
         return (
             <View>
+                <CameraView style={{width: '50%', height: '50%'}}
+                            onBarcodeScanned={(data) => {
+                                runSearch({variables: {upc: data.data} })
+                                setScannerEnabled(false);
+                            }}/>
                 <AntDesign
                     onPress={() => setScannerEnabled(false)}
                     name="closecircleo"
