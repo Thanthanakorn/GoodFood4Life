@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.10.3",
-    "dayjs": "^1.11.11",
     "expo": "~51.0.2",
     "expo-constants": "~16.0.1",
     "expo-linking": "~6.3.1",
