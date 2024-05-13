@@ -1,17 +1,40 @@
-import {View, Text, StyleSheet, FlatList, Button, StatusBar} from "react-native";
+import {View, Text, StyleSheet, FlatList, Button, ActivityIndicator} from "react-native";
 import {Link} from "expo-router";
-import FoodListItem from "../components/FoodListItem";
-import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import React from "react";
+import {gql, useQuery} from "@apollo/client";
+import dayjs from "dayjs";
+import FoodLogListItem from "../components/FoodLogListItem";
 
-
-const foodItems = [
-    {
-    food: {label: 'Pizza', nutrients: { ENERC_KCAL:100, CHOCDF:10, PROCNT: 20, FAT: 5 }, brand: "Domino's"}
+const query = gql`
+    query foodLogsForDate($date: Date!, $user_id: String!) {
+        foodLogsForDate(date: $date, user_id: $user_id) {
+            user_id
+            label
+            kcal
+            carbohydrate
+            protein
+            fat
+            food_brand
+        }
     }
-];
+`;
 
 export default function HomeScene() {
+    const user_id = "admin";
+    const { data, loading, error } = useQuery(query, {
+        variables: {
+            date: dayjs().format('YYYY-MM-DD'),
+            user_id,
+        },
+    });
+
+    if (loading) {
+        return <ActivityIndicator/>;
+    }
+    if (error) {
+        return <Text>An error occurred.</Text>;
+    }
+
     return(
         <View style={styles.container}>
             <View style={styles.headerRow}>
@@ -26,9 +49,9 @@ export default function HomeScene() {
             </View>
 
             <FlatList
-                data={foodItems}
+                data={data.foodLogsForDate}
                 contentContainerStyle={{ gap: 5 }}
-                renderItem={({ item }) => <FoodListItem item = {item} />}
+                renderItem={({ item }) => <FoodLogListItem item = {item} />}
                       />
         </View>
     )
