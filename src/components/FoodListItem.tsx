@@ -7,14 +7,14 @@ const FoodListItem = ({ item }) => {
         <View style={styles.container}>
             <View style={{ flex: 1, gap: 5 }}>
                 <Text style={{color: 'white',fontWeight: 'bold', fontSize: 16}}>
-                    {item.food.label}
+                    {item.food.label} {item.food.brand}
                 </Text>
                 <Text style={{color: 'dimgray'}}>
                     {item.food.nutrients.ENERC_KCAL} Kcal,
                     Carb: {item.food.nutrients.CHOCDF.toFixed(1)} ,
                     Protein: {item.food.nutrients.PROCNT.toFixed(1)}  ,
                     Fat: {item.food.nutrients.FAT.toFixed(1)}
-                    {item.food.brand}</Text>
+                    </Text>
             </View>
             <AntDesign name="pluscircleo" size={24} color="royalblue"/>
         </View>
