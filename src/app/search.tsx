@@ -55,7 +55,7 @@ export default function SearchScreen() {
     if (scannerEnabled) {
         return (
             <View>
-                <CameraView style={{width: '50%', height: '50%'}}
+                <CameraView style={{width: '100%', height: '100%'}}
                             onBarcodeScanned={(data) => {
                                 runSearch({variables: {upc: data.data} })
                                 setScannerEnabled(false);

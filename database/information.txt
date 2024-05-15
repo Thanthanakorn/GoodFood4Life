@@ -1,0 +1,44 @@
+VARCHAR user_id
+VARCHAR user_password
+
+INT user_age
+Float user_height
+Float user_weight
+Int user_activity_level
+
+    {
+        For activity level :
+
+        "1" : "BMR",
+        "2" : "Sedentary: little or no exercise",
+        "3" : "Exercise 1-3 times/week",
+        "4" : "Exercise 4-5 times/week",
+        "5" : "Daily exercise or intense exercise 3-4 times/week",
+        "6" : "Intense exercise 6-7 times/week",
+        "7" : "Very intense exercise daily, or physical job"
+        For goals :
+    }
+
+VARCHAR user_goal
+    {
+        "maintain" : "maintain weight",
+        "mildlose" : "Mild weight loss",
+        "weightlose" : "Weight loss",
+        "extremelose" : "Extreme weight loss",
+        "mildgain" : "Mild weight gain",
+        "weightgain" : "Weight gain",
+        "extremegain" : "Extreme weight gain"
+    }
+
+Int total_calories_need
+Int total_calories_consume
+Int total_carbohydrate_need
+Int total_carbohydrate_consume
+Int total_protein_need
+Int total_protein_consume
+Int total_fat_need
+Int total_fat_consume
+
+Boolean status { True = Paid, False = Free User }
+
+VARCHAR user_device

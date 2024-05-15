@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "GoodFood4Life",
-    "slug": "GoodFood4Life",
+    "slug": "goodfood4life",
     "scheme": "DreamProject",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -27,6 +27,15 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "543e8810-3ebc-4f11-8dcf-c9d77098ac69"
+      }
+    },
+    "owner": "thanthanakorn"
   }
 }
