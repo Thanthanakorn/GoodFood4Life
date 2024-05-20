@@ -1,4 +1,4 @@
-- [ ] 1.) Database
+- [x] <span style="color: green;">1.) Database</span>
 - [ ] 2.) Login page
 - [ ] 3.) Register page
 - [ ] 4.) User will enter the height, weight, sex, and their goal

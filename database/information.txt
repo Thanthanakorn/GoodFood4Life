@@ -1,9 +1,11 @@
 VARCHAR user_id
+VARCHAR user_name
 VARCHAR user_password
-
-INT user_age
+Boolean user_status { True = Paid, False = Free_user }
+VARCHAR user_device_id
+INT user_dob
 Float user_height
-Float user_weight
+Float user_weight_id
 Int user_activity_level
 
     {
@@ -31,14 +33,23 @@ VARCHAR user_goal
     }
 
 Int total_calories_need
-Int total_calories_consume
+Int total_calories_consumed
 Int total_carbohydrate_need
-Int total_carbohydrate_consume
+Int total_carbohydrate_consumed
 Int total_protein_need
-Int total_protein_consume
+Int total_protein_consumed
 Int total_fat_need
-Int total_fat_consume
+Int total_fat_consumed
 
-Boolean status { True = Paid, False = Free User }
 
-VARCHAR user_device
+food_log
+VARCHAR food_log_id
+VARCHAR user_id
+VARCHAR food_id
+VARCHAR food_name
+VARCHAR food_label
+Int food_calories
+Float food_carbohydrate
+Float food_protein
+Float food_fat
+Date created_at
