@@ -33,3 +33,5 @@ cd ../api stepzen start
 ```
 
 ![ER Diagram](database/ER-Diagram.png)
+
+"main": "expo-router/entry",
